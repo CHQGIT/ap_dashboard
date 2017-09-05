@@ -1,0 +1,49 @@
+@import 'tooltip';
+
+@font-face {
+   font-family: 'MyFont';
+   src:  url('Amaranth-Regular.otf') format('woff2'),
+         url('Amaranth-Regular.otf') format('woff');
+   font-weight: 600;
+   font-style: normal;
+}
+.wrapper_app { width: 100%; height: 100%; display: flex; flex-direction: column; }
+
+.wrapper_top, .wrapper_bot { display: flex; flex-direction: row; }
+
+.wrapper_top {  }
+
+.graphicTop { width: 50%;
+  height: 50%; }
+
+/*
+.graph1 {
+  width: 70%;
+}
+
+.graph2{
+  width: 30%;
+}
+*/
+.wrapper_bot { width: 100%; height: 50%; margin-top: 2%; }
+
+.graphicBot { width: 50%; display: flex; flex-direction: row; }
+
+.grapie { width: 50%; }
+
+.graBar { width: 100%; }
+
+.wrapper_title {
+  width: 100%;
+  font-family: 'MyFont';
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  //background-color: darkgreen;
+//  margin-bottom: 1%;
+}
+
+.imggis{
+
+
+}
