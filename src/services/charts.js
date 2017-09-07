@@ -8,13 +8,75 @@ import StatisticDefinition from 'esri/tasks/StatisticDefinition';
 import moment from 'moment';
 
 
+const comunas = [
+  { value: 'TOTAL', label: 'TOTAL' },
+  {value: "ALGARROBO", label: "ALGARROBO"},
+  {value: "CABILDO", label: "CABILDO"},
+  {value: "CALLE LARGA", label: "CALLE LARGA"},
+  {value: "CARTAGENA", label: "CARTAGENA"},
+  {value: "CASABLANCA", label: "CASABLANCA"},
+  {value: "CATEMU", label: "CATEMU"},
+  {value: "CONCON", label: "CONCON"},
+  {value: "EL QUISCO", label: "EL QUISCO"},
+  {value: "EL TABO", label: "EL TABO"},
+  {value: "HIJUELAS", label: "HIJUELAS"},
+  {value: "LA CALERA", label: "LA CALERA"},
+  {value: "LA CRUZ", label: "LA CRUZ"},
+  {value: "LA LIGUA", label: "LA LIGUA"},
+  {value: "LIMACHE", label: "LIMACHE"},
+  {value: "LLAY LLAY", label: "LLAY LLAY"},
+  {value: "LOS ANDES", label: "LOS ANDES"},
+  {value: "NOGALES", label: "NOGALES"},
+  {value: "OLMUE", label: "OLMUE"},
+  {value: "PANQUEHUE", label: "PANQUEHUE"},
+  {value: "PAPUDO", label: "PAPUDO"},
+  {value: "PETORCA", label: "PETORCA"},
+  {value: "PUCHUNCAVI", label: "PUCHUNCAVI"},
+  {value: "PUTAENDO", label: "PUTAENDO"},
+  {value: "QUILLOTA", label: "QUILLOTA"},
+  {value: "QUILPUE", label: "QUILPUE"},
+  {value: "QUINTERO", label: "QUINTERO"},
+  {value: "RINCONADA", label: "RINCONADA"},
+  {value: "SAN ANTONIO", label: "SAN ANTONIO"},
+  {value: "SAN ESTEBAN", label: "SAN ESTEBAN"},
+  {value: "SAN FELIPE", label: "SAN FELIPE"},
+  {value: "SANTA MARIA", label: "SANTA MARIA"},
+  {value: "SANTO DOMINGO", label: "SANTO DOMINGO"},
+  {value: "VALPARAISO", label: "VALPARAISO"},
+  {value: "VILLA ALEMANA", label: "VILLA ALEMANA"},
+  {value: "VIÑA DEL MAR", label: "VIÑA DEL MAR"},
+  {value: "ZAPALLAR", label: "ZAPALLAR"}
+];
+
+function getComunas(callback){
+  var qTaskkResumenChilquinta = new QueryTask(layers.read_comunas());
+    var qResumenChilquinta = new esri.tasks.Query();
+    qResumenChilquinta.where = "1=1";
+    qResumenChilquinta.returnGeometry = false;
+    qResumenChilquinta.outFields=["nombre"];
+    qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
+        var comunas = featureSet.features.map(comuna=>{
+          var ob = {
+            value: comuna.attributes.nombre,
+            label: comuna.attributes.nombre
+          }
+          return ob
+        });
+        return callback(comunas);
+
+    }, (Errorq)=>{
+        console.log("Error doing query for regions quantity chilquinta");
+        return callback(false);
+    });
+}
+
 function calcularMeses(fechaInicial){
-  console.log(moment(fechaInicial).format('L'));
+//  console.log(moment(fechaInicial).format('L'));
   var d = new Date();
-  console.log(d);
+  //console.log(d);
   var now = new Date(moment(fechaInicial).format('L'));
   now.setMonth(now.getMonth()-1);
-  console.log(now);
+  //console.log(now);
   var mesesAntes = [];
   var months = new Array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dic");
   for (var i = 11; i >= 0; i--) {
@@ -46,7 +108,7 @@ function getConsumos1(callback){
 }
 
 function getConsumos2(callback){
-  console.log(layers.read_ap_dif());
+//  console.log(layers.read_ap_dif());
 
   var qTaskkResumenChilquinta = new QueryTask(layers.read_ap_consumoAnual());
     var qResumenChilquinta = new esri.tasks.Query();
@@ -124,7 +186,7 @@ function makeBarWithNegative(divName, chartNumber){
 
 
       var m = calcularMeses(response[0].attributes.periodo_ini);
-      console.log(m);
+    //  console.log(m);
 
       var teo = [
       categoriasTeoricas.mes_11/1000000,
@@ -485,4 +547,5 @@ function makePieChart(divName, pieNumber){
 
 }
 
-export {makeBarWithNegative, makePieChart}
+export default comunas;
+export {makeBarWithNegative, makePieChart, getComunas}

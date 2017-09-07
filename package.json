@@ -91,6 +91,7 @@
     "postcss-loader": "^1.2.2",
     "postcss-mixins": "^5.4.1",
     "react-hot-loader": "^3.0.0-beta.6",
+    "react-select": "^1.0.0-rc.5",
     "react-toolbox-themr": "^1.0.2",
     "redux-devtools-extension": "^1.0.0",
     "style-loader": "^0.13.1",
@@ -108,7 +109,6 @@
     "prod:build": "cross-env NODE_ENV=production webpack -p --config webpackprod.config.js --optimize-minimize --progress --colors",
     "toolbox": "react-toolbox-themr"
   },
-
   "reactToolbox": {
     "include": [
       "BUTTON",

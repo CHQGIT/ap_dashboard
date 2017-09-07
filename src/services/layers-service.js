@@ -51,6 +51,9 @@ function myLayers(){
     read_ap_consumoAnual(){
       return serviceURL + "GESTION_AP/AP_ANALISIS/MapServer/10?f=json&token=" + token.read();
 
+    },
+    read_comunas(){
+        return serviceURL + "MapaBase/MapServer/4?f=json&token=" + token.read();
     }
 
 

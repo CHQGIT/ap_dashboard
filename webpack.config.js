@@ -133,7 +133,7 @@ const settings = {
     new ExtractTextPlugin(('../css/style.css')),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
-    }),
+    })/*,
 
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
@@ -147,6 +147,7 @@ const settings = {
       },
       comments: false
     })
+    */
   ]
 
 };
