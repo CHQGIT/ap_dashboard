@@ -1,11 +1,11 @@
 
 import React from 'react';
-import {makeBarWithNegative, makePieChart} from '../services/charts';
+import {makeBarWithNegative, makePieChart, getComunas} from '../services/charts';
 import comunas from  '../services/charts';
 import {factigisLoginVentaWeb} from '../services/parameters';
 import Select from 'react-select';
 import '!style-loader!css-loader!sass-loader!react-select/dist/react-select.css';
-
+import _ from 'lodash';
 
 
 class Main extends React.Component {
@@ -26,32 +26,73 @@ class Main extends React.Component {
       if(val.value=="TOTAL"){
         console.log(val.value,"cargar...");
         factigisLoginVentaWeb('vialactea\\ehernanr',"Chilquinta1",(cb)=>{
+        /*  var promiseComunas = getComunas();
+          promiseComunas.then(resolve=>{
+            var comu = [{value: "TOTAL", label: 'TOTAL'}];
+            var other = _.concat(comu,resolve);
 
-          makeBarWithNegative("container", 1);
-          makeBarWithNegative("container2",2);
+            this.setState({options: other});
+          }),(reject=>{
+            console.log(reject,"error")
+          })
+          */
 
-          makePieChart("container3",3);
-          makePieChart("container4",4);
+          makeBarWithNegative("container", 1, "1=1");
+          makeBarWithNegative("container2",2, "1=1");
+          makeBarWithNegative("container5",5, "1=1");
 
-          makeBarWithNegative("container5",5);
+          makePieChart("container3",3,"1=1");
+          makePieChart("container4",4,"1=1");
+
 
         });
       }else{
+
           console.log(val.value,"cargar...");
+          factigisLoginVentaWeb('vialactea\\ehernanr',"Chilquinta1",(cb)=>{
+          /*  var promiseComunas = getComunas();
+            promiseComunas.then(resolve=>{
+              var comu = [{value: "TOTAL", label: 'TOTAL'}];
+              var other = _.concat(comu,resolve);
+
+              this.setState({options: other});
+            }),(reject=>{
+              console.log(reject,"error")
+            })
+            */
+
+            makeBarWithNegative("container", 1, "nm_comuna='"+val.value+"'");
+            makeBarWithNegative("container2",2, "nm_comuna='"+val.value+"'");
+            makeBarWithNegative("container5",5, "nm_comuna='"+val.value+"'");
+            makePieChart("container3",3, "comuna='"+val.value+"'");
+            makePieChart("container4",4,"comuna='"+val.value+"'");
+
+
+          });
       }
   }
 
   componentDidMount(){
 
       factigisLoginVentaWeb('vialactea\\ehernanr',"Chilquinta1",(cb)=>{
+      /*  var promiseComunas = getComunas();
+        promiseComunas.then(resolve=>{
+          var comu = [{value: "TOTAL", label: 'TOTAL'}];
+          var other = _.concat(comu,resolve);
 
-        makeBarWithNegative("container", 1);
-        makeBarWithNegative("container2",2);
+  console.log(other,"comunas", resolve);
+          this.setState({options: other});
+        }),(reject=>{
+          console.log(reject,"error")
+        })
+        */
 
-        makePieChart("container3",3);
-        makePieChart("container4",4);
+        makeBarWithNegative("container", 1, "1=1");
+        makeBarWithNegative("container2",2, "1=1");
+        makeBarWithNegative("container5",5, "1=1");
+        makePieChart("container3",3, "1=1");
+        makePieChart("container4",4, "1=1");
 
-        makeBarWithNegative("container5",5);
 
       });
 

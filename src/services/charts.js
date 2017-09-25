@@ -9,74 +9,76 @@ import moment from 'moment';
 
 
 const comunas = [
-  { value: 'TOTAL', label: 'TOTAL' },
-  {value: "ALGARROBO", label: "ALGARROBO"},
-  {value: "CABILDO", label: "CABILDO"},
-  {value: "CALLE LARGA", label: "CALLE LARGA"},
-  {value: "CARTAGENA", label: "CARTAGENA"},
-  {value: "CASABLANCA", label: "CASABLANCA"},
-  {value: "CATEMU", label: "CATEMU"},
-  {value: "CONCON", label: "CONCON"},
-  {value: "EL QUISCO", label: "EL QUISCO"},
-  {value: "EL TABO", label: "EL TABO"},
-  {value: "HIJUELAS", label: "HIJUELAS"},
-  {value: "LA CALERA", label: "LA CALERA"},
-  {value: "LA CRUZ", label: "LA CRUZ"},
-  {value: "LA LIGUA", label: "LA LIGUA"},
-  {value: "LIMACHE", label: "LIMACHE"},
-  {value: "LLAY LLAY", label: "LLAY LLAY"},
-  {value: "LOS ANDES", label: "LOS ANDES"},
-  {value: "NOGALES", label: "NOGALES"},
-  {value: "OLMUE", label: "OLMUE"},
-  {value: "PANQUEHUE", label: "PANQUEHUE"},
-  {value: "PAPUDO", label: "PAPUDO"},
-  {value: "PETORCA", label: "PETORCA"},
-  {value: "PUCHUNCAVI", label: "PUCHUNCAVI"},
-  {value: "PUTAENDO", label: "PUTAENDO"},
-  {value: "QUILLOTA", label: "QUILLOTA"},
-  {value: "QUILPUE", label: "QUILPUE"},
-  {value: "QUINTERO", label: "QUINTERO"},
-  {value: "RINCONADA", label: "RINCONADA"},
-  {value: "SAN ANTONIO", label: "SAN ANTONIO"},
-  {value: "SAN ESTEBAN", label: "SAN ESTEBAN"},
-  {value: "SAN FELIPE", label: "SAN FELIPE"},
-  {value: "SANTA MARIA", label: "SANTA MARIA"},
-  {value: "SANTO DOMINGO", label: "SANTO DOMINGO"},
-  {value: "VALPARAISO", label: "VALPARAISO"},
-  {value: "VILLA ALEMANA", label: "VILLA ALEMANA"},
-  {value: "VIÑA DEL MAR", label: "VIÑA DEL MAR"},
-  {value: "ZAPALLAR", label: "ZAPALLAR"}
+  {value: 'TOTAL', label: 'TOTAL' },
+  {value: "CALLE LARGA", label: "CALLE LARGA"},
+  {value: "CARTAGENA", label: "CARTAGENA"},
+  {value: "CATEMU", label: "CATEMU"},
+  {value: "CONCON", label: "CONCON"},
+  {value: "HIJUELAS", label: "HIJUELAS"},
+  {value: "LA CALERA", label: "LA CALERA"},
+  {value: "LA CRUZ", label: "LA CRUZ"},
+  {value: "LIMACHE", label: "LIMACHE"},
+  {value: "LLAY LLAY", label: "LLAY LLAY"},
+  {value: "LOS ANDES", label: "LOS ANDES"},
+  {value: "NOGALES", label: "NOGALES"},
+  {value: "OLMUE", label: "OLMUE"},
+  {value: "PANQUEHUE", label: "PANQUEHUE"},
+  {value: "PUCHUNCAVI", label: "PUCHUNCAVI"},
+  {value: "PUTAENDO", label: "PUTAENDO"},
+  {value: "QUILLOTA", label: "QUILLOTA"},
+  {value: "QUILPUE", label: "QUILPUE"},
+  {value: "QUINTERO", label: "QUINTERO"},
+  {value: "RINCONADA", label: "RINCONADA"},
+  {value: "SAN ANTONIO", label: "SAN ANTONIO"},
+  {value: "SAN ESTEBAN", label: "SAN ESTEBAN"},
+  {value: "SAN FELIPE", label: "SAN FELIPE"},
+  {value: "SANTA MARIA", label: "SANTA MARIA"},
+  {value: "SANTO DOMINGO", label: "SANTO DOMINGO"},
+  {value: "VALPARAISO", label: "VALPARAISO"},
+  {value: "VILLA ALEMANA", label: "VILLA ALEMANA"},
+  {value: "VIÑA DEL MAR", label: "VIÑA DEL MAR"}
+
 ];
+function getComunas(){
 
-function getComunas(callback){
-  var qTaskkResumenChilquinta = new QueryTask(layers.read_comunas());
-    var qResumenChilquinta = new esri.tasks.Query();
-    qResumenChilquinta.where = "1=1";
-    qResumenChilquinta.returnGeometry = false;
-    qResumenChilquinta.outFields=["nombre"];
-    qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
-        var comunas = featureSet.features.map(comuna=>{
-          var ob = {
-            value: comuna.attributes.nombre,
-            label: comuna.attributes.nombre
-          }
-          return ob
-        });
-        return callback(comunas);
+  var promise = new Promise((resolve,reject)=>{
+    var qTaskkResumenChilquinta = new QueryTask(layers.read_comunas());
+      var qResumenChilquinta = new esri.tasks.Query();
+      qResumenChilquinta.where = "1=1";
+      qResumenChilquinta.returnGeometry = false;
+      qResumenChilquinta.outFields=["nm_comuna"];
+      qResumenChilquinta.orderByFields=["nm_comuna"];
+      qResumenChilquinta.returnDistinctValues = true;
+      qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
 
-    }, (Errorq)=>{
-        console.log("Error doing query for regions quantity chilquinta");
-        return callback(false);
-    });
+          var comunas = featureSet.features.map(comuna=>{
+
+            var ob = {
+              value: comuna.attributes.nm_comuna,
+              label: comuna.attributes.nm_comuna
+            }
+            return ob
+          });
+
+          return resolve(comunas);
+
+      }, (Errorq)=>{
+          console.log("Error doing query for comuna");
+          return reject(false);
+      });
+  });
+
+  return promise;
+
 }
 
 function calcularMeses(fechaInicial){
-//  console.log(moment(fechaInicial).format('L'));
+  //  console.log(moment(fechaInicial).format('L'));
   var d = new Date();
   //console.log(d);
   var now = new Date(moment(fechaInicial).format('L'));
-  now.setMonth(now.getMonth()-1);
-  //console.log(now);
+  now.setMonth(now.getMonth());
+  console.log(now);
   var mesesAntes = [];
   var months = new Array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dic");
   for (var i = 11; i >= 0; i--) {
@@ -90,11 +92,51 @@ function calcularMeses(fechaInicial){
 
 }
 
-function getConsumos1(callback){
-  //console.log(layers.read_ap_consumoMes());
-  var qTaskkResumenChilquinta = new QueryTask(layers.read_ap_consumoMes());
+function getConsumos1(whereOption, callback){
+
+  var qTaskkResumenChilquinta;
+
+  (whereOption=="1=1")? qTaskkResumenChilquinta = new QueryTask(layers.read_ap_consumoMes()) : qTaskkResumenChilquinta = new QueryTask(layers.read_apMes_Comuna());
     var qResumenChilquinta = new esri.tasks.Query();
-    qResumenChilquinta.where = "1=1";
+
+    qResumenChilquinta.where = whereOption;
+    qResumenChilquinta.returnGeometry = false;
+    qResumenChilquinta.outFields=["*"];
+    qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
+        return callback(featureSet.features);
+
+    }, (Errorq)=>{
+        console.log("Error doing query for regions quantity chilquinta");
+        return callback(false);
+    });
+}
+
+function getConsumos2(whereOption, callback){
+  var qTaskkResumenChilquinta;
+  (whereOption=="1=1")? qTaskkResumenChilquinta = new QueryTask(layers.read_ap_consumoAnual()) : qTaskkResumenChilquinta = new QueryTask(layers.read_apconsumoAnual_Comuna());
+
+    var qResumenChilquinta = new esri.tasks.Query();
+    qResumenChilquinta.where = whereOption;
+    qResumenChilquinta.returnGeometry = false;
+    qResumenChilquinta.outFields=["*"];
+
+    qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
+
+        return callback(featureSet.features);
+
+    }, (Errorq)=>{
+        console.log("Error doing query for chart 2 chilquinta");
+        return callback(false);
+    });
+}
+
+function getConsumos3(whereOption, callback){
+  var qTaskkResumenChilquinta
+  (whereOption=="1=1")? qTaskkResumenChilquinta = new QueryTask(layers.read_ap_medidos()) : qTaskkResumenChilquinta = new QueryTask(layers.read_ap_medidosComuna());
+
+
+    var qResumenChilquinta = new esri.tasks.Query();
+    qResumenChilquinta.where = whereOption;
     qResumenChilquinta.returnGeometry = false;
     qResumenChilquinta.outFields=["*"];
     qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
@@ -107,29 +149,12 @@ function getConsumos1(callback){
     });
 }
 
-function getConsumos2(callback){
-//  console.log(layers.read_ap_dif());
+function getConsumos4(whereOption, callback){
+  var qTaskkResumenChilquinta;
+  (whereOption=="1=1")? qTaskkResumenChilquinta = new QueryTask(layers.read_ap_frecuenciaNoLeidos()) : qTaskkResumenChilquinta = new QueryTask(layers.read_ap_frecuenciaNoLeidosComuna());
 
-  var qTaskkResumenChilquinta = new QueryTask(layers.read_ap_consumoAnual());
-    var qResumenChilquinta = new esri.tasks.Query();
-    qResumenChilquinta.where = "1=1";
-    qResumenChilquinta.returnGeometry = false;
-    qResumenChilquinta.outFields=["*"];
-    //qResumenChilquinta.outStatistics = [ statDef ];
-    qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
-
-        return callback(featureSet.features);
-
-    }, (Errorq)=>{
-        console.log("Error doing query for regions quantity chilquinta");
-        return callback(false);
-    });
-}
-
-function getConsumos3(callback){
-    var qTaskkResumenChilquinta = new QueryTask(layers.read_ap_medidos());
-    var qResumenChilquinta = new esri.tasks.Query();
-    qResumenChilquinta.where = "1=1";
+  var qResumenChilquinta = new esri.tasks.Query();
+    qResumenChilquinta.where = whereOption;
     qResumenChilquinta.returnGeometry = false;
     qResumenChilquinta.outFields=["*"];
     qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
@@ -142,16 +167,18 @@ function getConsumos3(callback){
     });
 }
 
-function getConsumos4(callback){
+function getConsumos5(whereOption, callback){
 
-  var qTaskkResumenChilquinta = new QueryTask(layers.read_ap_frecuenciaNoLeidos());
+  var qTaskkResumenChilquinta;
+  (whereOption=="1=1")? qTaskkResumenChilquinta = new QueryTask(layers.read_ap_estadisticasLum()) : qTaskkResumenChilquinta = new QueryTask(layers.read_apLuminarias_medidas_comuna());
+
     var qResumenChilquinta = new esri.tasks.Query();
-    qResumenChilquinta.where = "1=1";
+    qResumenChilquinta.where = whereOption;
     qResumenChilquinta.returnGeometry = false;
     qResumenChilquinta.outFields=["*"];
     qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
 
-        return callback(featureSet.features);
+       return callback(featureSet.features);
 
     }, (Errorq)=>{
         console.log("Error doing query for regions quantity chilquinta");
@@ -159,34 +186,17 @@ function getConsumos4(callback){
     });
 }
 
-function getConsumos5(callback){
-  var qTaskkResumenChilquinta = new QueryTask(layers.read_ap_estadisticasLum());
-    var qResumenChilquinta = new esri.tasks.Query();
-    qResumenChilquinta.where = "1=1";
-    qResumenChilquinta.returnGeometry = false;
-    qResumenChilquinta.outFields=["*"];
-    qTaskkResumenChilquinta.execute(qResumenChilquinta, (featureSet)=>{
-
-        return callback(featureSet.features);
-
-    }, (Errorq)=>{
-        console.log("Error doing query for regions quantity chilquinta");
-        return callback(false);
-    });
-}
-
-
-function makeBarWithNegative(divName, chartNumber){
-
+function makeBarWithNegative(divName, chartNumber, queryOption){
+  //OK
   if(chartNumber==1){
-    getConsumos1(response =>{
+    getConsumos1(queryOption, (response) =>{
 
       var categoriasFacturada =  response[0].attributes;
       var categoriasTeoricas = response[1].attributes;
 
 
       var m = calcularMeses(response[0].attributes.periodo_ini);
-    //  console.log(m);
+      console.log("caterogias gra 1:" , categoriasFacturada, categoriasTeoricas);
 
       var teo = [
       categoriasTeoricas.mes_11/1000000,
@@ -268,7 +278,7 @@ function makeBarWithNegative(divName, chartNumber){
 
           },
           tooltip: {
-            valueDecimals: 2
+            valueDecimals: 4
           },
 
           yAxis: {
@@ -295,11 +305,11 @@ function makeBarWithNegative(divName, chartNumber){
 
     });
   }
-
+  //FALTA ARREGLAR CAMPO TOTAL POR KWh
   if(chartNumber==2){
-    getConsumos2(response=>{
+    getConsumos2(queryOption, response=>{
 
-      //console.log(response, "hola2");
+      console.log(response, "hola2");
       Highcharts.chart(divName, {
           chart: {
               type: 'column'
@@ -358,8 +368,24 @@ function makeBarWithNegative(divName, chartNumber){
   }
 
   if(chartNumber==5){
-    getConsumos5(response=>{
-      //console.log(response);
+    getConsumos5(queryOption, response=>{
+
+      var datos = response.map(data =>{
+        let labelMed;
+        (data.attributes.medido=='True')? labelMed='MEDIDAS' : labelMed='NO MEDIDAS';
+        let d = {
+          name: labelMed,
+          data: [data.attributes.cantidad]
+        }
+        return d;
+      });
+
+
+        var total = response.map(c => c.attributes.cantidad);
+        total = total.reduce((t,n) =>{return t+n});
+
+        datos.push({name:'TOTAL', data:[total]});
+
 
 
       Highcharts.chart(divName, {
@@ -380,7 +406,8 @@ function makeBarWithNegative(divName, chartNumber){
           credits: {
               enabled: false
           },
-          series: [{
+          series: datos
+          /*[{
               name: 'MEDIDAS',
               data: [response[0].attributes.cantidad]
           }, {
@@ -390,7 +417,9 @@ function makeBarWithNegative(divName, chartNumber){
           }, {
               name: 'TOTAL',
               data: [response[0].attributes.cantidad+response[1].attributes.cantidad]
-          }],
+          }]
+          */
+          ,
           colors: ['#5a5356', '#da291c', '#ff8200'],
           plotOptions: {
               column: {
@@ -418,13 +447,13 @@ function makeBarWithNegative(divName, chartNumber){
 
 }
 
-function makePieChart(divName, pieNumber){
+function makePieChart(divName, pieNumber, queryOption){
 
   if(pieNumber==3){
-    getConsumos3(medidos =>{
+    getConsumos3(queryOption, medidos =>{
 
       var total = parseInt(medidos[0].attributes.CANTIDAD) + parseInt(medidos[1].attributes.CANTIDAD);
-      //console.log(parseInt(medidos[0].attributes.CANTIDAD));
+
       // Build the chart
         Highcharts.chart(divName, {
             chart: {
@@ -478,9 +507,10 @@ function makePieChart(divName, pieNumber){
   }
 
   if(pieNumber==4){
-    getConsumos4(medidos =>{
-      // Build the chart
-      let total =  medidos[0].attributes.cantidad +  medidos[1].attributes.cantidad +  medidos[2].attributes.cantidad+  medidos[3].attributes.cantidad;
+    getConsumos4(queryOption, medidos =>{
+
+      if(!medidos.length){
+
         Highcharts.chart(divName, {
             chart: {
                 plotBackgroundColor: null,
@@ -489,7 +519,7 @@ function makePieChart(divName, pieNumber){
                 type: 'pie'
             },
             title: {
-                text: 'Frecuencia AP No Leídos 12 Meses  <br>' + total.toString()
+                text: 'Frecuencia AP No Leídos 12 Meses  <br>' + 0
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}% <br> Cantidad: <b>{point.y}</b>'
@@ -517,32 +547,105 @@ function makePieChart(divName, pieNumber){
                 colorByPoint: true,
                 data: [
                   {
-                    name: medidos[0].attributes.Rango,
-                    y:  medidos[0].attributes.cantidad
+                    name: '1-3',
+                    y: 0
                   },
                   {
-                    name: medidos[1].attributes.Rango,
-                    y: medidos[1].attributes.cantidad,
-                    sliced: true,
-                    selected: true
+                    name:'4-6',
+                    y: 0
                   },
                   {
-                    name: medidos[2].attributes.Rango,
-                    y: medidos[2].attributes.cantidad,
-
+                    name:'7-9',
+                    y: 0
                   },
                   {
-                    name: medidos[3].attributes.Rango,
-                    y: medidos[3].attributes.cantidad,
-
+                    name:'10-12',
+                    y: 0
                   }
-                ]
+              ]
+
             }],
               colors: ['#5a5356', '#da291c', '#ff8200', '#00953a']
         });
+        return;
+      }else{
+        // Build the chart
+        var total = medidos.map(c => c.attributes.cantidad);
+        total = total.reduce((t,n) =>{return t+n});
+        //console.log(total);
 
+        var datos = medidos.map(m =>{
+          let d = {
+            name: m.attributes.Rango,
+            y: m.attributes.cantidad
+          }
+          return d;
+        });
+
+        //let total =  medidos[0].attributes.cantidad +  medidos[1].attributes.cantidad +  medidos[2].attributes.cantidad+  medidos[3].attributes.cantidad;
+          Highcharts.chart(divName, {
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              title: {
+                  text: 'Frecuencia AP No Leídos 12 Meses  <br>' + total.toString()
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.1f}% <br> Cantidad: <b>{point.y}</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                           format: '<b><br> <b>{point.y}</b>',
+                           style: {
+                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                           }
+                      },
+                      showInLegend: true
+                  }
+              },
+
+              credits: {
+                  enabled: false
+              },
+              series: [{
+                  name: 'Brands',
+                  colorByPoint: true,
+                  data: datos
+                    /*
+                    {
+                      name: (medidos[0].attributes.Rango)? medidos[0].attributes.Rango : '',
+                      y:  (medidos[0].attributes.cantidad) ? medidos[0].attributes.cantidad : ''
+                    },
+                    {
+                      name: (medidos[1].attributes.Rango)? medidos[1].attributes.Rango : '',
+                      y: (medidos[1].attributes.cantidad) ? medidos[1].attributes.cantidad : ''
+                    },
+                    {
+                      name: (medidos[2].attributes.Rango)? medidos[2].attributes.Rango : '',
+                      y: (medidos[2].attributes.cantidad) ? medidos[2].attributes.cantidad : '',
+
+                    },
+                    {
+                      name: (medidos[3].attributes.Rango)? medidos[3].attributes.Rango : '',
+                      y:(medidos[3].attributes.cantidad) ? medidos[3].attributes.cantidad : ''
+
+                    }
+                  ]
+                  */
+              }],
+                colors: ['#5a5356', '#da291c', '#ff8200', '#00953a']
+          });
+
+
+      }
     });
-
   }
 
 }

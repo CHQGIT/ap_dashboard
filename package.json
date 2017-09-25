@@ -1,35 +1,25 @@
 {
   "name": "react-toolbox-example",
-  "description": "A set of complementary tools to ReactJS.",
+  "description": "AP Graficos para estadísticas.",
   "version": "0.12.0",
   "author": {
-    "name": "React Toolbox Team",
-    "url": "http://github.com/react-toolbox"
+    "name": "AP Graficos",
+    "url": "https://github.com/darklilium/AP_Graficos"
   },
   "contributors": [
     {
-      "name": "Javi Jimenez Villar",
-      "email": "javi.jimenez.villar@gmail.com",
+      "name": "Evelyn Hernandez",
+      "email": "",
       "url": "http://soyjavi.com/"
-    },
-    {
-      "name": "Javi Velasco Arjona",
-      "email": "javier.velasco86@gmail.com",
-      "url": "http://javivelasco.com/"
-    },
-    {
-      "name": "Oleg Stepura",
-      "email": "oleg[at]stepura.com",
-      "url": "http://oleg.stepura.com/"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react-toolbox/react-toolbox-example.git"
+    "url": "https://github.com/darklilium/AP_Graficos"
   },
   "bugs": {
-    "url": "https://github.com/react-toolbox/react-toolbox/issues",
-    "email": "issues@react-toolbox.com"
+    "url": "https://github.com/darklilium/AP_Graficos/issues",
+    "email": ""
   },
   "keywords": [
     "components",
@@ -103,10 +93,11 @@
     "sturto": "node_modules/.bin/cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server --colors --config webpack.config.js",
     "start": "start npm run dev:server & start npm run gulp",
     "dev:server": "webpack-dev-server --history-api-fallback",
-    "build": "node_modules/.bin/cross-env NODE_ENV=production UV_THREADPOOL_SIZE=100 webpack --config webpackprod.config.js",
+    "build": "node_modules/.bin/cross-env NODE_ENV=production UV_THREADPOOL_SIZE=100 webpack -p --config webpackprod.config.js",
     "deploy": "gh-pages -d build",
     "gulp": "gulp",
     "prod:build": "cross-env NODE_ENV=production webpack -p --config webpackprod.config.js --optimize-minimize --progress --colors",
+    
     "toolbox": "react-toolbox-themr"
   },
   "reactToolbox": {
