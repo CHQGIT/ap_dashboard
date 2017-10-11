@@ -78,7 +78,7 @@ function calcularMeses(fechaInicial){
   //console.log(d);
   var now = new Date(moment(fechaInicial).format('L'));
   now.setMonth(now.getMonth());
-  console.log(now);
+  //console.log(now);
   var mesesAntes = [];
   var months = new Array("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dic");
   for (var i = 11; i >= 0; i--) {
@@ -451,58 +451,64 @@ function makePieChart(divName, pieNumber, queryOption){
 
   if(pieNumber==3){
     getConsumos3(queryOption, medidos =>{
+      console.log(medidos.length,"tengo medidos en 3");
+      if ((!medidos.length) || (typeof medidos.length == 'undefined')){
+        console.log("hola")
+      }else{
+        console.log("adios", medidos)
+        var total = medidos.map(c => c.attributes.CANTIDAD);
+        total = total.reduce((t,n) =>{return t+n});
+        console.log(total);
 
-      var total = parseInt(medidos[0].attributes.CANTIDAD) + parseInt(medidos[1].attributes.CANTIDAD);
-
-      // Build the chart
-        Highcharts.chart(divName, {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            credits: {
-                enabled: false
-            },
-            title: {
-                text: 'Productos AP Medidos <br>' + total.toString()
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}% <br> Cantidad: <b>{point.y}</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                         format: '<b><br> <b>{point.y}</b>',
-                         style: {
-                           color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                         }
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                name: 'Brands',
-                colorByPoint: true,
-                data: [{
-                    name: medidos[0].attributes.ESTADO,
-                    y:  medidos[0].attributes.CANTIDAD
-                }, {
-                    name: medidos[1].attributes.ESTADO,
-                    y: medidos[1].attributes.CANTIDAD,
-                    sliced: true,
-                    selected: true
-                }]
-            }],
-            colors: ['#5a5356', '#da291c', '#ff8200']
-
-
-
+        var datos = medidos.map(m =>{
+          let d = {
+            name: m.attributes.ESTADO,
+            y: m.attributes.CANTIDAD
+          }
+          return d;
         });
+
+        // Build the chart
+          Highcharts.chart(divName, {
+              chart: {
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false,
+                  type: 'pie'
+              },
+              credits: {
+                  enabled: false
+              },
+              title: {
+                  text: 'Productos AP Medidos <br>' + total
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.1f}% <br> Cantidad: <b>{point.y}</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                           format: '<b><br> <b>{point.y}</b>',
+                           style: {
+                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                           }
+                      },
+                      showInLegend: true
+                  }
+              },
+              series: [{
+                  name: 'Brands',
+                  colorByPoint: true,
+                  data:datos
+              }],
+              colors: ['#5a5356', '#da291c', '#ff8200']
+
+          });
+
+      }
     });
   }
 
