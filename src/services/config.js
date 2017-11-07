@@ -4,9 +4,5 @@ const mapConfig = {
   zoom: 11
 };
 
-const creds = {
-  u:'vialactea\\usrgis' ,
-  p: "N3L4y5HZ"
-}
 
-export {mapConfig, creds};
+export {mapConfig};

@@ -3,6 +3,7 @@ import React from 'react';
 import {makeBarWithNegative, makePieChart, getComunas} from '../services/charts';
 import comunas from  '../services/charts';
 import {factigisLoginVentaWeb} from '../services/parameters';
+import userParams from '../services/parameters';
 import Select from 'react-select';
 import '!style-loader!css-loader!sass-loader!react-select/dist/react-select.css';
 import _ from 'lodash';
@@ -25,7 +26,7 @@ class Main extends React.Component {
       }
       if(val.value=="TOTAL"){
         console.log(val.value,"cargar...");
-        factigisLoginVentaWeb('vialactea\\ehernanr',"Chilquinta1",(cb)=>{
+        factigisLoginVentaWeb(userParams.user,userParams.pass,(cb)=>{
         /*  var promiseComunas = getComunas();
           promiseComunas.then(resolve=>{
             var comu = [{value: "TOTAL", label: 'TOTAL'}];
@@ -49,7 +50,7 @@ class Main extends React.Component {
       }else{
 
           console.log(val.value,"cargar...");
-          factigisLoginVentaWeb('vialactea\\ehernanr',"Chilquinta1",(cb)=>{
+          factigisLoginVentaWeb(userParams.user,userParams.pass,(cb)=>{
           /*  var promiseComunas = getComunas();
             promiseComunas.then(resolve=>{
               var comu = [{value: "TOTAL", label: 'TOTAL'}];
@@ -74,7 +75,7 @@ class Main extends React.Component {
 
   componentDidMount(){
 
-      factigisLoginVentaWeb('vialactea\\ehernanr',"Chilquinta1",(cb)=>{
+      factigisLoginVentaWeb(userParams.user,userParams.pass,(cb)=>{
       /*  var promiseComunas = getComunas();
         promiseComunas.then(resolve=>{
           var comu = [{value: "TOTAL", label: 'TOTAL'}];

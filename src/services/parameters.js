@@ -3,6 +3,12 @@ import myLayers from './layers-service';
 import token from './token-service';
 import $ from 'jquery';
 
+var userParams = {
+  user: 'vialactea\\usrgis',
+  pass: "N3L4y5HZ"
+}
+export default userParams;
+
 function factigisLoginVentaWeb(user,pass, callback){
 
   const url = myLayers.read_tokenURL();
@@ -108,4 +114,4 @@ function saveGisredLogin(user, fech, page, mod, tkn){
 
 
 
-export {factigisLoginVentaWeb, saveGisredLogin, getFormatedDate};
+export {factigisLoginVentaWeb, saveGisredLogin, getFormatedDate, userParams};

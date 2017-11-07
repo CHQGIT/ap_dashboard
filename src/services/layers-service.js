@@ -9,8 +9,8 @@ function getMapLayers() {
 }
 
 function myLayers(){
-//  const serviceMain = 'http://gisred.chilquinta/arcgis/';
-    const serviceMain = 'http://143.47.57.116/arcgis/';
+  const serviceMain = 'http://gisred.chilquinta/arcgis/';
+  //  const serviceMain = 'http://143.47.57.116/arcgis/';
   //change this for external connection:
   //Cambios v0.6.1 prod factigisVE 31.03.2017
   //const serviceMain = 'http://gisred.chilquinta.cl:5555/arcgis/';

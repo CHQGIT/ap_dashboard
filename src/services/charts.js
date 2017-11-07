@@ -190,7 +190,8 @@ function makeBarWithNegative(divName, chartNumber, queryOption){
   //OK
   if(chartNumber==1){
     getConsumos1(queryOption, (response) =>{
-
+      console.log(response,"tengo en char 1");
+      
       var categoriasFacturada =  response[0].attributes;
       var categoriasTeoricas = response[1].attributes;
 
@@ -308,8 +309,8 @@ function makeBarWithNegative(divName, chartNumber, queryOption){
   //FALTA ARREGLAR CAMPO TOTAL POR KWh
   if(chartNumber==2){
     getConsumos2(queryOption, response=>{
+    console.log(response,"tengo en char 2")
 
-      console.log(response, "hola2");
       Highcharts.chart(divName, {
           chart: {
               type: 'column'
