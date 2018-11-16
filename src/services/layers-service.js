@@ -23,49 +23,44 @@ function myLayers(){
     read_tokenURL(){
       return serviceMain + "tokens/generateToken";
     },
-    //ok
+    //usado
     read_ap_consumoMes(){
      return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/6?f=json&token=" + token.read();
 
     },
-    //ok
+    //usado
     read_ap_medidos(){
     return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/8?f=json&token=" + token.read();
 
     },
-    //ok
+    //usado
     read_ap_frecuenciaNoLeidos(){
         return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/10?f=json&token=" + token.read();
 
     },
-    //ok
+    //usado
     read_ap_estadisticasLum(){
         return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/12?f=json&token=" + token.read();
     },
-    //ok
+    //usado
     read_ap_consumoAnual(){
       return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/14?f=json&token=" + token.read();
 
     },
-    //ok
-    read_comunas(){
-        return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/1?f=json&token=" + token.read();
-    },
-
     // <---------------------- AP POR COMUNA ------------------------------> //
-    read_apMes_Comuna(){
+    read_apMes_Comuna(){ //usado
         return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/7?f=json&token=" + token.read();
     },
-    read_apconsumoAnual_Comuna(){
+    read_apconsumoAnual_Comuna(){ //usado
         return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/15?f=json&token=" + token.read();
     },
-    read_apLuminarias_medidas_comuna(){
+    read_apLuminarias_medidas_comuna(){ //usado
        return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/13?f=json&token=" + token.read();
     },
-    read_ap_medidosComuna(){
+    read_ap_medidosComuna(){ //usado
        return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/9?f=json&token=" + token.read();
     },
-    read_ap_frecuenciaNoLeidosComuna(){
+    read_ap_frecuenciaNoLeidosComuna(){ //usado
       return serviceURL + "GESTION_AP/GESTION_AP_COMUNA/MapServer/11?f=json&token=" + token.read();
     }
 
